@@ -1,0 +1,13 @@
+body{
+    .list-item{
+        margin:60px 0px;
+        &__component{
+            margin:10px 0px !important;
+        }
+    }
+    .pagination{
+        .item{
+            width:50% !important;
+        }
+    }
+}
