@@ -12,7 +12,7 @@ class List extends React.Component{
     constructor(props){
 		super(props);
 		this.state={
-            list:{},
+            lists:{},
             firstLoad:true,
             loading:true,
             nextUrl:null,
@@ -43,18 +43,13 @@ class List extends React.Component{
         axios.get(url).then((response)=> {
             this.setState(
                 {
-                    list:response.data.results,
+                    lists:response.data.results,
                     nextUrl:response.data.next,
                     prevUrl:response.data.previous,
                     loading:false
                 }
             );
         })
-    }
-
-    componentDidMount(){
-        this.generatePokemon()
-        this.setState({firstLoad:false})
     }
 
     renderList(){
@@ -65,14 +60,19 @@ class List extends React.Component{
                 </div>
             )
         }else{
-            return _.map(this.state.list,item=>{
+            return _.map(this.state.lists,item=>{
                 return(
-                    <ListItem list={item} key={item.name}/>
+                    <ListItem details={item} key={item.name}/>
                 )
             })
         }
     }
 
+    componentDidMount(){
+        this.generatePokemon()
+        this.setState({firstLoad:false})
+    }
+    
     render(){
         return(
             <div className="ui container list-item">
