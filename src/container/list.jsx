@@ -21,18 +21,23 @@ class List extends React.Component{
         this.nextData = this.nextData.bind(this);
         this.prevData = this.prevData.bind(this);
     }
+
     nextData(){
-        this.setState({loding:true})
-        this.generatePokemon('next')
+        if(this.state.nextUrl!==null){
+            this.setState({loding:true})
+            this.generatePokemon(this.state.nextUrl)
+        }
     }
+
     prevData(){
-        this.setState({loding:true})
-        this.generatePokemon('prev')
+        if(this.state.prevUrl!==null){
+            this.setState({loding:true})
+            this.generatePokemon(this.state.prevUrl)
+        }
     }
 
     generatePokemon(pagination){
-        const paginationLink=(pagination=='next' && this.state.nextUrl!=null) ? this.state.nextUrl : (this.state.prevUrl!==null && pagination=='prev') ? this.state.prevUrl : ''
-        const url=(this.state.firstLoad) ? CONFIG.url : paginationLink
+        const url=(this.state.firstLoad) ? CONFIG.url : pagination
         axios.get(url).then((response)=> {
             this.setState(
                 {
@@ -64,7 +69,6 @@ class List extends React.Component{
                 )
             })
         }
-        
     }
 
     render(){
@@ -72,10 +76,10 @@ class List extends React.Component{
             <div className="ui container list-item">
                <Navbar active="pokemon-list"/>
                 {this.renderList()}
-                <div>
-                    <div className="ui inverted bottom fixed menu pagination">
-                        <a className="item" onClick={this.nextData}>Next</a>
-                        <a className="item" onClick={this.prevData}>Previous</a>
+                <div className="ui container card">
+                    <div className="ui two buttons">
+                        <div className="ui basic green button" onClick={this.nextData}>Next</div>
+                        <div className="ui basic green button" onClick={this.prevData}>Previous</div>
                     </div>
                 </div>
             </div>
