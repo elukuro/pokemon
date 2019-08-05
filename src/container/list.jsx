@@ -21,18 +21,25 @@ class List extends React.Component{
         this.nextData = this.nextData.bind(this);
         this.prevData = this.prevData.bind(this);
     }
+    
     nextData(){
         this.setState({loding:true})
-        this.generatePokemon('next')
-    }
-    prevData(){
-        this.setState({loding:true})
-        this.generatePokemon('prev')
+        if(this.state.nextUrl!==null){
+            this.generatePokemon(this.state.nextUrl)
+        }
+        
     }
 
-    generatePokemon(pagination){
-        const paginationLink=(pagination=='next' && this.state.nextUrl!=null) ? this.state.nextUrl : (this.state.prevUrl!==null && pagination=='prev') ? this.state.prevUrl : ''
-        const url=(this.state.firstLoad) ? CONFIG.url : paginationLink
+    prevData(){
+        this.setState({loding:true})
+        if(this.state.prevUrl!==null){
+            this.generatePokemon(this.state.prevUrl)
+        }
+        
+    }
+
+    generatePokemon(paginationUrl){
+        const url=(this.state.firstLoad) ? CONFIG.url : paginationUrl
         axios.get(url).then((response)=> {
             this.setState(
                 {

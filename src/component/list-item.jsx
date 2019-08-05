@@ -11,7 +11,7 @@ class ListItem extends Component{
         const element=this.props.list;
         return(
             <div>
-                <div className="ui card container list-item__component">
+                <div className="ui card container list-item__component" id="list">
                     <div className="content">
                         <div className="ui small feed">
                         <div className="event">
