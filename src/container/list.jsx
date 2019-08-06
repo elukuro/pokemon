@@ -60,9 +60,9 @@ class List extends React.Component{
                 </div>
             )
         }else{
-            return _.map(this.state.lists,item=>{
+            return _.map(this.state.lists,(item,index)=>{
                 return(
-                    <ListItem details={item} key={item.name}/>
+                    <ListItem details={item} key={index}/>
                 )
             })
         }

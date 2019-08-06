@@ -1,4 +1,5 @@
-import React , { Component } from 'react';
+import React , { Component } from 'react'
+import DetailModal from './modal.jsx'
 import axios from 'axios'
 import _ from 'lodash'
 
@@ -8,10 +9,17 @@ class ListItem extends Component{
 		super(props);
 		this.state={
             loading:true,
-            detailPokemon:{}
-            
+            detailPokemon:{},
+            isModalShow:false
         }
         this.getDetail = this.getDetail.bind(this);
+        this.closeModal=this.closeModal.bind(this);
+    }
+
+    closeModal(){
+        this.setState({
+            isModalShow:false
+        })
     }
 
     getDetail(){
@@ -25,7 +33,8 @@ class ListItem extends Component{
             this.setState(
                 {
                     detailPokemon:response.data,
-                    loading:false
+                    loading:false,
+                    isModalShow:true
                 }
             );
             this.renderDetail()
@@ -33,25 +42,26 @@ class ListItem extends Component{
     }
 
     renderDetail(){
-        return _.map(this.state.detailPokemon.abilities,data=>{
-            console.log(data.ability.name)
-        })
-
+        if(this.state.isModalShow){
+            return(
+                <DetailModal close={this.closeModal} data={this.state.detailPokemon}/>
+            )
+        }
     }
 
     
     
     render(){
-        const data=this.props.details;
         return(
             <div>
+                {this.renderDetail()}
                 <div className="ui card container list-item__component" onClick={this.getDetail}>
                     <div className="content">
                         <div className="ui small feed">
                         <div className="event">
                             <div className="content">
                             <div className="summary">
-                                <p>{data.name}</p>
+                                <p>{this.props.details.name.split('-').join(' ')}</p>
                             </div>
                             </div>
                         </div>
