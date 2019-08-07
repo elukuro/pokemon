@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import _ from 'lodash'
 
 
 class DetailModal extends Component{
@@ -9,18 +8,19 @@ class DetailModal extends Component{
         this.state={
             types:null,
             ability:null,
-            catch:false,
+            catch:null,
         }
         this.catch=this.catch.bind(this)
     }
+    
 
     componentDidMount(){
         console.log(this.props.data)
-        let types=_.map(this.props.data.types,(data,index)=>{
+        let types=this.props.data.types.map((data)=>{
             return data.type.name
         })
         
-        let abilities=_.map(this.props.data.abilities,(data,index)=>{
+        let abilities=this.props.data.abilities.map((data)=>{
             return data.ability.name.split('-').join(' ')
         })
 
@@ -34,7 +34,30 @@ class DetailModal extends Component{
         let random=Math.floor(Math.random() * 10);
         if(random % 2 == 0){
             this.setState({catch:true})
+        }else{
+            this.setState({catch:false})
         }
+    }
+
+    renderCatch(){
+        if(this.state.catch!==null && this.state.catch==true){
+            return(
+                <div className="extra content catch">
+                    <label>Give nickname:</label>
+                    <div className="ui large transparent input">
+                        <input type="text" placeholder="Add nickname..."/>
+                    </div>
+                </div>
+               )
+        }else if(this.state.catch==false){
+            return(
+                <b>failed to catch</b>
+            )
+        }else{
+            return(
+                <div></div>
+            )
+        } 
     }
 
     render(){
@@ -61,6 +84,7 @@ class DetailModal extends Component{
                             <div className="extra content">
                                 Weight: {this.props.data.weight} ~ Height: {this.props.data.height}
                             </div>
+                            {this.renderCatch()}
                         </div>
                     </div>
                     <div className="actions">

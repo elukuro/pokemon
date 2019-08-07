@@ -1,7 +1,6 @@
 import React , { Component } from 'react'
 import DetailModal from './modal.jsx'
 import axios from 'axios'
-import _ from 'lodash'
 
 class ListItem extends Component{
 
