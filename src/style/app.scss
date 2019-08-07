@@ -1,3 +1,5 @@
+@import 'semantic';
+
 body{
     .list-item{
         margin:60px 0px;
@@ -15,5 +17,8 @@ body{
         .card{
             margin:0 auto !important;
         }
+    }
+    .ui.modal{
+        width:93% !important;
     }
 }

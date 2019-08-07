@@ -8,8 +8,10 @@ class DetailModal extends Component{
         super(props)
         this.state={
             types:null,
-            ability:null
+            ability:null,
+            catch:false,
         }
+        this.catch=this.catch.bind(this)
     }
 
     componentDidMount(){
@@ -26,6 +28,13 @@ class DetailModal extends Component{
             types:types.toString(),
             ability:abilities.toString(),
         })
+    }
+
+    catch(){
+        let random=Math.floor(Math.random() * 10);
+        if(random % 2 == 0){
+            this.setState({catch:true})
+        }
     }
 
     render(){
@@ -46,21 +55,20 @@ class DetailModal extends Component{
                                     Type: {this.state.types}
                                 </div>
                                 <div className="description">
-                                    Ability {this.state.ability}
+                                    Ability: {this.state.ability}
                                 </div>
                             </div>
                             <div className="extra content">
-                                <i className="weight icon"></i> {this.props.data.weight}
+                                Weight: {this.props.data.weight} ~ Height: {this.props.data.height}
                             </div>
                         </div>
                     </div>
                     <div className="actions">
                         <div className="ui button" onClick={this.props.close}>
-                            close
+                            Close
                         </div>
-                        <div className="ui positive right labeled icon button">
+                        <div className="ui positive button" onClick={this.catch}>
                             Catch
-                            <i className="checkmark icon"></i>
                         </div>
                     </div>
                 </div>
