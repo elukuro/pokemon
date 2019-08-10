@@ -46,7 +46,7 @@ class List extends React.Component{
                     lists:response.data.results,
                     nextUrl:response.data.next,
                     prevUrl:response.data.previous,
-                    loading:false
+                    loading:false,
                 }
             );
         })

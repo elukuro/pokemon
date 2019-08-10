@@ -9,13 +9,15 @@ class DetailModal extends Component{
             types:null,
             ability:null,
             catch:null,
+            pokemonName:'',
         }
         this.catch=this.catch.bind(this)
+        this.savePokemon=this.savePokemon.bind(this)
+        this.updatePokemonName=this.updatePokemonName.bind(this)
     }
     
 
     componentDidMount(){
-        console.log(this.props.data)
         let types=this.props.data.types.map((data)=>{
             return data.type.name
         })
@@ -39,19 +41,38 @@ class DetailModal extends Component{
         }
     }
 
+    savePokemon(){
+        const catchedPokemon ={name:this.state.pokemonName,realName:this.props.data.name}
+        var myPokemon =[]
+        if(localStorage.getItem('myPokemon')!==null){
+            var myPokemon=JSON.parse(localStorage.getItem('myPokemon'))
+            myPokemon.push(catchedPokemon)
+        }else{
+            myPokemon.push(catchedPokemon)
+        }
+        localStorage.setItem('myPokemon',JSON.stringify(myPokemon))
+        this.props.close()
+    }
+
+    updatePokemonName(e){
+        this.setState({pokemonName:e.target.value})
+    }
+
     renderCatch(){
-        if(this.state.catch!==null && this.state.catch==true){
+        if(this.state.catch==true){
             return(
                 <div className="extra content catch">
                     <label>Give nickname:</label>
                     <div className="ui large transparent input">
-                        <input type="text" placeholder="Add nickname..."/>
+                        <input type="text" onChange={this.updatePokemonName} value={this.state.pokemonName} placeholder="Add nickname..."/>
                     </div>
                 </div>
                )
         }else if(this.state.catch==false){
             return(
-                <b>failed to catch</b>
+                <div className="extra content no-catch">
+                    <b>Failed to catch</b>
+                </div>
             )
         }else{
             return(
@@ -60,17 +81,50 @@ class DetailModal extends Component{
         } 
     }
 
+  
+    renderCatchButton(){
+        if(this.state.catch==true){
+            return(
+                <div className="actions">
+                    <div className="ui button positive"  onClick={this.savePokemon}>
+                        Save
+                    </div>
+                </div>
+               )
+        }else if(this.state.catch==false){
+            return(
+                <div className="actions">
+                    <div className="ui button" onClick={this.props.close}>
+                        Close
+                    </div>
+                </div>
+            )
+        }else{
+            return(
+                <div className="actions">
+                    <div className="ui button" onClick={this.props.close}>
+                        Close
+                    </div>
+                    <div className="ui positive button" onClick={this.catch}>
+                        Catch
+                    </div>
+                </div>
+            )
+        } 
+    }
+    
+
     render(){
         return(
             <div className="ui dimmer modals page top aligned transition visible active container-modal">
                 <div className="ui special modal transition visible active">
-                    <div className="header">
+                    <div className={this.state.catch ? 'header catch' : (this.state.catch==false) ? 'header no-catch' : 'header' }>
                        Pokemon Information
                     </div>
                     <div className="content">
                         <div className="ui card">
                             <div className="content">
-                                <img className="ui image" src={this.props.data.sprites.front_default}/>
+                                <img className="ui image" src={this.props.data.sprites.front_default} alt={this.props.data.name}/>
                                 <div className="header">
                                     {this.props.data.name}
                                 </div>
@@ -87,14 +141,7 @@ class DetailModal extends Component{
                             {this.renderCatch()}
                         </div>
                     </div>
-                    <div className="actions">
-                        <div className="ui button" onClick={this.props.close}>
-                            Close
-                        </div>
-                        <div className="ui positive button" onClick={this.catch}>
-                            Catch
-                        </div>
-                    </div>
+                    {this.renderCatchButton()}
                 </div>
             </div>
         )
