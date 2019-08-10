@@ -14,6 +14,7 @@ class DetailModal extends Component{
         this.catch=this.catch.bind(this)
         this.savePokemon=this.savePokemon.bind(this)
         this.updatePokemonName=this.updatePokemonName.bind(this)
+        this.releasePokemon=this.releasePokemon.bind(this)
     }
     
 
@@ -42,7 +43,12 @@ class DetailModal extends Component{
     }
 
     savePokemon(){
-        const catchedPokemon ={name:this.state.pokemonName,realName:this.props.data.name}
+        const catchedPokemon ={
+            name:this.state.pokemonName,
+            realName:this.props.data.name,
+            url:this.props.url,
+            id:this.props.data.id
+        }
         var myPokemon =[]
         if(localStorage.getItem('myPokemon')!==null){
             var myPokemon=JSON.parse(localStorage.getItem('myPokemon'))
@@ -52,6 +58,16 @@ class DetailModal extends Component{
         }
         localStorage.setItem('myPokemon',JSON.stringify(myPokemon))
         this.props.close()
+    }
+
+    releasePokemon(){
+        const id=this.props.data.id
+        const myPokemon=JSON.parse(localStorage.getItem('myPokemon'))
+        const pokemonIndex=myPokemon.findIndex(o => o['id']==id)
+        myPokemon.splice(pokemonIndex,1)
+        localStorage.setItem('myPokemon',JSON.stringify(myPokemon))
+        this.props.close()
+        this.props.generateList()
     }
 
     updatePokemonName(e){
@@ -82,8 +98,8 @@ class DetailModal extends Component{
     }
 
   
-    renderCatchButton(){
-        if(this.state.catch==true){
+    renderButtons(){
+        if(this.state.catch==true && this.props.mode!=='my-list'){
             return(
                 <div className="actions">
                     <div className="ui button positive"  onClick={this.savePokemon}>
@@ -91,7 +107,7 @@ class DetailModal extends Component{
                     </div>
                 </div>
                )
-        }else if(this.state.catch==false){
+        }else if(this.state.catch==false && this.props.mode!=='my-list'){
             return(
                 <div className="actions">
                     <div className="ui button" onClick={this.props.close}>
@@ -99,7 +115,7 @@ class DetailModal extends Component{
                     </div>
                 </div>
             )
-        }else{
+        }else if(this.state.catch==null && this.props.mode!=='my-list'){
             return(
                 <div className="actions">
                     <div className="ui button" onClick={this.props.close}>
@@ -110,7 +126,18 @@ class DetailModal extends Component{
                     </div>
                 </div>
             )
-        } 
+        }else if(this.props.mode=='my-list'){
+            return(
+                <div className="actions">
+                    <div className="ui button" onClick={this.props.close}>
+                        Close
+                    </div>
+                    <div className="ui blue button" onClick={this.releasePokemon}>
+                        Release
+                    </div>
+                </div>   
+            )
+        }
     }
     
 
@@ -141,7 +168,7 @@ class DetailModal extends Component{
                             {this.renderCatch()}
                         </div>
                     </div>
-                    {this.renderCatchButton()}
+                    {this.renderButtons()}
                 </div>
             </div>
         )

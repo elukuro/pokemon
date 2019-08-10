@@ -62,7 +62,7 @@ class List extends React.Component{
         }else{
             return _.map(this.state.lists,(item,index)=>{
                 return(
-                    <ListItem details={item} key={index}/>
+                    <ListItem details={item} key={index} mode='list'/>
                 )
             })
         }
@@ -80,8 +80,8 @@ class List extends React.Component{
                 {this.renderList()}
                 <div className="ui container card">
                     <div className="ui two buttons">
-                        <div className="ui basic green button" onClick={this.nextData}>Next</div>
                         <div className="ui basic green button" onClick={this.prevData}>Previous</div>
+                        <div className="ui basic green button" onClick={this.nextData}>Next</div>
                     </div>
                 </div>
             </div>

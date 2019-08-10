@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import { Link } from "react-router-dom";
 
 class Navbar extends Component{
     constructor(props) {
@@ -17,8 +18,8 @@ class Navbar extends Component{
                     <div className="item">
                         <img src={require('../images/logo.png')} alt="jumbo" className="image"/>
                     </div>
-                    <a className={`item ${this.activeHelper.pokemonList}`}>Pokemon List</a>
-                    <a className={`item ${this.activeHelper.myList}`}>My Pokemon</a>
+                    <Link to="/"><span className={`item ${this.activeHelper.pokemonList}`}>Pokemon List</span></Link>
+                    <Link to="my-pokemon"><span className={`item ${this.activeHelper.myList}`}>My Pokemon</span></Link>
                 </div>
             </div>
         )

@@ -12,10 +12,11 @@ class ListItem extends Component{
             isModalShow:false
         }
         this.getDetail = this.getDetail.bind(this);
-        this.closeModal=this.closeModal.bind(this);
+        this.close=this.close.bind(this);
+        this.generateList=this.generateList.bind(this);
     }
 
-    closeModal(){
+    close(){
         this.setState({
             isModalShow:false
         })
@@ -40,10 +41,20 @@ class ListItem extends Component{
         })
     }
 
+    generateList(){
+        this.props.generateList()
+    }
+
     renderDetail(){
         if(this.state.isModalShow){
             return(
-                <DetailModal close={this.closeModal} data={this.state.detailPokemon}/>
+                <DetailModal 
+                    generateList={this.generateList} 
+                    close={this.close} 
+                    url={this.props.details.url} 
+                    data={this.state.detailPokemon} 
+                    mode={this.props.mode}
+                />
             )
         }
     }
@@ -60,7 +71,7 @@ class ListItem extends Component{
                         <div className="event">
                             <div className="content">
                             <div className="summary">
-                                <p>{this.props.details.name.split('-').join(' ')}</p>
+                                <p>{this.props.details.name.split('-').join(' ')} {this.props.mode=='my-list' ? ` | ${this.props.details.realName}`:''}</p>
                             </div>
                             </div>
                         </div>
