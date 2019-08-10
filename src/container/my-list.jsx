@@ -24,7 +24,7 @@ class MyList extends React.Component{
     }
 
     renderList(){
-        return _.map(this.state.lists,(item,index)=>{
+       return _.map(this.state.lists,(item,index)=>{
             return(
                 <ListItem details={item} key={index} mode="my-list" generateList={this.generateList}/>
             )
