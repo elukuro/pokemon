@@ -1,8 +1,8 @@
-# How to install
+# pokemon
+it's a pokemon dictionary based on API from https://pokeapi.co/
+we assume that you already clone this project
 
-after git clone this project
-
-
+## Instalation
 ```bash
 npm install
 ```
@@ -19,5 +19,3 @@ production mode
 npm run prod 
 ```
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
